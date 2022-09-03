@@ -5,10 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.notes.screens.Add
-import com.example.notes.screens.Main
-import com.example.notes.screens.Note
-import com.example.notes.screens.Start
+import com.example.notes.screens.*
 
 sealed class NavRoute(val route:String){
     object Start:NavRoute("start_screen")
@@ -24,16 +21,16 @@ fun NotesNavHost() {
     val navController= rememberNavController()
     NavHost(navController=navController, startDestination = NavRoute.Start.route){
         composable(NavRoute.Start.route){
-            Start(navController= navController)
+            StartScreen(navController= navController)
         }
         composable(NavRoute.Add.route){
-            Add(navController= navController)
+            AddScreen(navController= navController)
         }
         composable(NavRoute.Main.route){
-            Main(navController= navController)
+            MainScreen(navController= navController)
         }
         composable(NavRoute.Note.route){
-            Note(navController= navController)
+            NoteScreen(navController= navController)
         }
     }
 }
