@@ -1,5 +1,6 @@
 package com.example.notes.screens
 
+import android.app.Application
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
@@ -7,16 +8,25 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.notes.MainViewModel
+import com.example.notes.MainViewModelFactory
 import com.example.notes.navigation.NavRoute
 import com.example.notes.ui.theme.NotesTheme
+import com.example.utils.TYPE_FIREBASE
+import com.example.utils.TYPE_ROOM
 
 @Composable
 fun StartScreen(navController: NavHostController) {
+    val context= LocalContext.current
+    val mViewModel:MainViewModel=
+        viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
     Scaffold(
         modifier = Modifier.fillMaxSize()
     )
@@ -24,7 +34,9 @@ fun StartScreen(navController: NavHostController) {
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
             Text(text = "Choose what u want")
             Button(onClick = {
-                             navController.navigate(route = NavRoute.Main.route)
+                mViewModel.initDataBase(TYPE_ROOM){
+                    navController.navigate(route = NavRoute.Main.route)
+                }
                              },
                 modifier = Modifier
                     .width(200.dp)
@@ -33,7 +45,10 @@ fun StartScreen(navController: NavHostController) {
                 Text(text = "Room")
             }
             Button(onClick = {
-                navController.navigate(route = NavRoute.Add.route)
+                mViewModel.initDataBase(TYPE_FIREBASE){
+                    navController.navigate(route = NavRoute.Add.route)
+
+                }
             },
                 modifier = Modifier
                     .width(200.dp)
