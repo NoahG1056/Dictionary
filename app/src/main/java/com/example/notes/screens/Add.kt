@@ -16,26 +16,46 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.notes.MainViewModel
+import com.example.notes.model.Note
 import com.example.notes.navigation.NavRoute
 import com.example.notes.ui.theme.NotesTheme
 
 @Composable
-fun AddScreen(navController: NavHostController) {
+fun AddScreen(navController: NavHostController, viewModel: MainViewModel) {
     var title by remember{ mutableStateOf("")}
     var subtitle by remember{ mutableStateOf("")}
+    var isButtonEnabled by remember{ mutableStateOf(false)}
     Scaffold {
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center ) {
             Text(text = "Add new note", fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(8.dp))
             OutlinedTextField(value = title,
-                onValueChange ={title=it},
-                label = { Text(text = "Note title")} )
+                onValueChange ={
+
+                    title=it
+                    isButtonEnabled
+                               },
+                label = { Text(text = "Note title")
+                },
+                isError = title.isEmpty()
+                )
 
             OutlinedTextField(value = subtitle,
-                onValueChange ={subtitle=it},
-                label = { Text(text = "Note subtitle")})
-            Button(modifier = Modifier.padding(16.dp), onClick = {navController.navigate(NavRoute.Main.route)}) {
+                onValueChange ={
+
+                    subtitle=it
+                    isButtonEnabled=title.isNotEmpty()&& subtitle.isNotEmpty()
+                               },
+                label = { Text(text = "Note subtitle")},
+                isError = subtitle.isEmpty())
+            Button(modifier = Modifier.padding(16.dp),
+                enabled = isButtonEnabled,
+                onClick = {
+                viewModel.addNote(note= Note(title = title, subtitle = subtitle)){
+                    navController.navigate(NavRoute.Main.route)
+                }
+                }) {
                 Text(text = "Back")
 
             }
@@ -47,6 +67,7 @@ fun AddScreen(navController: NavHostController) {
 @Composable
 fun prevAddScreen(){
     NotesTheme() {
-        AddScreen(navController = rememberNavController())
+
+//        AddScreen(navController = rememberNavController(), viewModel = mViewModel)
     }
 }

@@ -28,14 +28,11 @@ import com.example.notes.MainViewModel
 import com.example.notes.MainViewModelFactory
 import com.example.notes.model.Note
 import com.example.notes.navigation.NavRoute
-import com.example.notes.navigation.NotesNavHost
 import com.example.notes.ui.theme.NotesTheme
 
 @Composable
-fun MainScreen(navController: NavHostController) {
-    val context= LocalContext.current
-    val mViewModel: MainViewModel =
-        viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
+    val notes= viewModel.readAllNotes().observeAsState(listOf()).value
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = { navController.navigate(NavRoute.Add.route)}
@@ -49,11 +46,11 @@ fun MainScreen(navController: NavHostController) {
 //            NoteItem(title = "any", subtitle = "any",navController=navController)
 //            NoteItem(title = "any", subtitle = "any",navController=navController)
 //        }
-//        LazyColumn{
-//            items(notes){note->
-//                NoteItem(note = note, navController = navController)
-//            }
-//        }
+        LazyColumn{
+            items(notes){note->
+                NoteItem(note = note, navController = navController)
+            }
+        }
 
 
     }
@@ -78,6 +75,9 @@ fun NoteItem(note:Note,navController:NavHostController){
 @Composable
 fun prevMainScreen(){
     NotesTheme {
-        MainScreen(navController = rememberNavController())
+        val context= LocalContext.current
+        val mViewModel: MainViewModel =
+            viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+        MainScreen(navController = rememberNavController(), viewModel = mViewModel)
     }
 }

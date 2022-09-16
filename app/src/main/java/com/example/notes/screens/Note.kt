@@ -14,10 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.notes.MainViewModel
 import com.example.notes.ui.theme.NotesTheme
 
 @Composable
-fun NoteScreen(navController: NavHostController) {
+fun NoteScreen(navController: NavHostController, viewModel: MainViewModel) {
     Scaffold(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment =Alignment.CenterHorizontally , verticalArrangement = Arrangement.Center) {
             Card(modifier = Modifier
@@ -37,7 +38,7 @@ fun NoteScreen(navController: NavHostController) {
 @Composable
 fun prevNoteScreen(){
     NotesTheme {
-        NoteScreen(navController = rememberNavController())
+//        NoteScreen(navController = rememberNavController(), viewModel = mViewModel)
 
     }
 }
