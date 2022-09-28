@@ -9,17 +9,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.notes.MainViewModel
 import com.example.notes.MainViewModelFactory
 import com.example.notes.navigation.NavRoute
-import com.example.notes.ui.theme.NotesTheme
-import com.example.utils.TYPE_FIREBASE
 import com.example.utils.TYPE_ROOM
+import com.example.notes.R
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.res.painterResource
+
 
 @Composable
 fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
@@ -27,25 +28,36 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
     val mViewModel:MainViewModel=
         viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            Image(
+                painter = painterResource(R.drawable.fon),
+                contentDescription = "Contact profile picture"
+
+                )
+
+        }
     )
     {
-        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-            Text(text = "Choose what u want")
+
+        Column(modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center) {
             Button(onClick = {
                 mViewModel.initDataBase(TYPE_ROOM){
                     navController.navigate(route = NavRoute.Main.route)
                 }
                              },
+
                 modifier = Modifier
                     .width(200.dp)
                     .padding(vertical = 5.dp)
             ) {
-                Text(text = "Room")
+                Text(text = "Add or delete cards")
             }
             Button(onClick = {
-                mViewModel.initDataBase(TYPE_FIREBASE){
-                    navController.navigate(route = NavRoute.Add.route)
+                mViewModel.initDataBase(TYPE_ROOM){
+                    navController.navigate(route = NavRoute.Learn.route)
 
                 }
             },
@@ -53,20 +65,10 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
                     .width(200.dp)
                     .padding(vertical = 5.dp)
             ) {
-                Text(text = "firebase")
+                Text(text = "learn cards")
             }
 
         }
     }
-    
-}
-@Preview(showBackground = true)
-@Composable
-fun prevStartScreen(){
-    NotesTheme() {
-        val context= LocalContext.current
-        val mViewModel: MainViewModel =
-            viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
-        StartScreen(navController = rememberNavController(), viewModel = mViewModel)
-    }
+
 }

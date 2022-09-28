@@ -1,7 +1,7 @@
 package com.example.database
 
 import androidx.lifecycle.LiveData
-import com.example.notes.model.Note
+import com.example.database.room.model.Note
 
 interface DataBaseRepository {
 

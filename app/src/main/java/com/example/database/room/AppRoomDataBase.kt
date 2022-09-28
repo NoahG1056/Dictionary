@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.database.room.DaO.NoteRooomDao
-import com.example.notes.model.Note
+import com.example.database.room.dao.NoteRoomDao
+import com.example.database.room.model.Note
+import com.example.utils.Constants.Keys.NOTE_DATABASE
 
 @Database(entities = [Note::class],version=1)
 abstract class AppRoomDataBase :RoomDatabase(){
-    abstract fun getRoomDao():NoteRooomDao
+    abstract fun getRoomDao():NoteRoomDao
     companion object{
 
         @Volatile
@@ -20,7 +21,7 @@ abstract class AppRoomDataBase :RoomDatabase(){
                 INSTANCE= Room.databaseBuilder(
                     context,
                     AppRoomDataBase::class.java,
-                    "notes_database"
+                    NOTE_DATABASE
                 ).build()
                 INSTANCE as AppRoomDataBase
             }else INSTANCE as AppRoomDataBase

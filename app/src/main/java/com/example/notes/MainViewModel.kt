@@ -5,9 +5,8 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.database.room.AppRoomDataBase
 import com.example.database.room.repository.RoomRepository
-import com.example.notes.model.Note
+import com.example.database.room.model.Note
 import com.example.utils.REPOSITORY
-import com.example.utils.TYPE_FIREBASE
 import com.example.utils.TYPE_ROOM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

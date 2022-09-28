@@ -1,5 +1,6 @@
 package com.example.notes.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,32 +12,42 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.notes.MainViewModel
-import com.example.notes.model.Note
+import com.example.database.room.model.Note
+import com.example.notes.R
 import com.example.notes.navigation.NavRoute
 import com.example.notes.ui.theme.NotesTheme
+import com.example.utils.Constants.Keys.ADD_NEW_TERM
+
 
 @Composable
 fun AddScreen(navController: NavHostController, viewModel: MainViewModel) {
     var title by remember{ mutableStateOf("")}
     var subtitle by remember{ mutableStateOf("")}
     var isButtonEnabled by remember{ mutableStateOf(false)}
-    Scaffold {
+    Scaffold (topBar = {
+        Image(
+            painter = painterResource(R.drawable.fon),
+            contentDescription = "Contact profile picture"
+
+        )
+    }){
+
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center ) {
-            Text(text = "Add new note", fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(8.dp))
+            Text(text = ADD_NEW_TERM, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(8.dp))
             OutlinedTextField(value = title,
                 onValueChange ={
 
                     title=it
                     isButtonEnabled
                                },
-                label = { Text(text = "Note title")
+                label = { Text(text = "Term")
                 },
                 isError = title.isEmpty()
                 )
@@ -47,7 +58,7 @@ fun AddScreen(navController: NavHostController, viewModel: MainViewModel) {
                     subtitle=it
                     isButtonEnabled=title.isNotEmpty()&& subtitle.isNotEmpty()
                                },
-                label = { Text(text = "Note subtitle")},
+                label = { Text(text = "Definition")},
                 isError = subtitle.isEmpty())
             Button(modifier = Modifier.padding(16.dp),
                 enabled = isButtonEnabled,
@@ -56,7 +67,7 @@ fun AddScreen(navController: NavHostController, viewModel: MainViewModel) {
                     navController.navigate(NavRoute.Main.route)
                 }
                 }) {
-                Text(text = "Back")
+                Text(text = "Done")
 
             }
         }

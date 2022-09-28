@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="There.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/main</item>
+        
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_sports_handball_24</item>
+        <item name="postSplashScreenTheme">@style/Theme.Notes</item>
+    </style>
+</resources>

@@ -49,6 +49,9 @@ android {
 }
 
 dependencies {
+
+
+
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
     def room_version = "2.4.2"
@@ -72,5 +75,8 @@ dependencies {
 
     def nav_version = "2.5.1"
     implementation "androidx.navigation:navigation-compose:$nav_version"
+
+    implementation "androidx.core:core-splashscreen:1.0.0"
+
 
 }

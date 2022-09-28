@@ -1,6 +1,7 @@
 package com.example.notes.screens
 
 import android.app.Application
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,14 +28,22 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.notes.MainViewModel
 import com.example.notes.MainViewModelFactory
-import com.example.notes.model.Note
+import com.example.notes.R
+import com.example.database.room.model.Note
 import com.example.notes.navigation.NavRoute
 import com.example.notes.ui.theme.NotesTheme
 
 @Composable
 fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
     val notes= viewModel.readAllNotes().observeAsState(listOf()).value
-    Scaffold(floatingActionButton = {
+    Scaffold(topBar = {
+        Image(
+        painter = painterResource(R.drawable.fon),
+        contentDescription = "Contact profile picture"
+
+    )
+    },
+        floatingActionButton = {
         FloatingActionButton(
             onClick = { navController.navigate(NavRoute.Add.route)}
         ) {
@@ -61,7 +71,7 @@ fun NoteItem(note:Note,navController:NavHostController){
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 24.dp)
-            .clickable { navController.navigate(NavRoute.Note.route) },
+            .clickable { navController.navigate(NavRoute.Note.route+"/${note.id}") },
         elevation = 6.dp
     ) {
         Column(modifier = Modifier.padding(vertical = 8.dp), horizontalAlignment =Alignment.CenterHorizontally ) {
